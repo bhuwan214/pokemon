@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import PokemonCard from "./PokemonCard";
 
 export default function Pokemon() {
+
+
   const [pokemon, setPokemon] = useState([]);
   const [loading,setLoading]=useState(true);
   const [error,setError]=useState(null);
@@ -11,25 +13,26 @@ export default function Pokemon() {
     try {
       const res = await fetch(API);
       const data = await res.json();
+
+      //here api is an nexted api so we are using double fetch method
       const detailedPokemonData = data.results.map(async (curPokemon) => {
         const res = await fetch(curPokemon.url);
         const data = await res.json();
         return data;
       });
 
+      //Promise.all wait for all promise to be fullfilled 
       const detailedResponses = await Promise.all(detailedPokemonData);
-      console.log(detailedResponses);
       setPokemon(detailedResponses);
       setLoading(false);
     }
      catch (error) {
-      console.log(error.message);
       setLoading(false);
       setError(error);
     }
   };
 
-  const API = "https://pokeapi.co/api/v2/pokemon?limit=20&offset=0";
+  const API = "https://pokeapi.co/api/v2/pokemon?limit=162&offset=0";
 
   useEffect(() => {
     fetchPokemon();

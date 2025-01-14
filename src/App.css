@@ -16,13 +16,13 @@ html {
 .container {
   width: 94vw;
   height: 100vh;
+  
 }
 
 .cards {
   display: grid;
-  align-content: center;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 20px;
+  column-gap:30px;
   justify-items: center;
   padding: 15px;
 }
@@ -35,6 +35,9 @@ li {
   background-color: rgb(229, 227, 224);
   padding: 10px;
   margin: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .card-demo{
