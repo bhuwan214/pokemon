@@ -5,6 +5,7 @@ export default function Pokemon() {
   const [pokemon, setPokemon] = useState([]);
   const [loading,setLoading]=useState(true);
   const [error,setError]=useState(null);
+  const [search, setSearch] = useState("");
 
   const fetchPokemon = async () => {
     try {
@@ -20,18 +21,27 @@ export default function Pokemon() {
       console.log(detailedResponses);
       setPokemon(detailedResponses);
       setLoading(false);
-    } catch (error) {
+    }
+     catch (error) {
       console.log(error.message);
       setLoading(false);
       setError(error);
     }
   };
 
-  const API = "https://pokeapi.co/api/v2/pokemon?limit=200&offset=0";
+  const API = "https://pokeapi.co/api/v2/pokemon?limit=20&offset=0";
 
   useEffect(() => {
     fetchPokemon();
   }, []);
+
+
+  // Search Functionality
+  const searchData = pokemon.filter((curPokemon)=>
+    curPokemon.name.toLowerCase().includes(search.toLowerCase())
+);
+
+  
 
   if(loading){
     return(
@@ -56,10 +66,13 @@ export default function Pokemon() {
           Lets catch Pokemon
         </h1>
       </header>
+      <div className="pokemon-search flex justify-center">
+        <input type="text" placeholder="Search pokemon" value={search} onChange={(e)=>setSearch(e.target.value)} />
+      </div>
 
       <div className="grid-container">
         <ul className="cards">
-            {pokemon.map((curPokemon) => {
+            {searchData.map((curPokemon) => {
 return <PokemonCard key={curPokemon.id} pokemonData={curPokemon}/>
             })}
         </ul>
